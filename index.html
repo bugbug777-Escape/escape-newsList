@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News List</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="styles/all.css" />
+  </head>
+  <body>
+    <div id="app" class="container my-3">
+      <div class="row">
+        <div class="col">
+          <div class="card border-0 shadow-lg rounded-4 mb-3">
+            <div class="card-body">
+              <h4>超棒棒新聞列表</h4>
+              <div class="row g-4 row-cols-md-2 row-cols-lg-3 row-cols-1">
+                <template v-for="item in newsList" :key="item.id">
+                  <div class="col">
+                    <div class="card bg-dark text-white card-gradient">
+                      <img
+                        :src="item.urlToImage"
+                        class="card-img"
+                        :alt="item.title"
+                      />
+                      <div class="card-img-overlay">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <p class="card-text">
+                          {{ date_formator(item.publishedAt) }}
+                        </p>
+                        <a
+                          @click.prevent="toggle_news(item.id)"
+                          href="#"
+                          class="stretched-link"
+                        ></a>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 預設不顯示，當點擊任一新聞時才會顯示 -->
+        <div v-if="isShow" class="col-12 col-md-6 col-lg-3">
+          <div class="sticky-top">
+            <!-- 點擊關閉側欄 -->
+            <button
+              @click="toggle_news"
+              class="btn btn-outline-secondary shadow border-0"
+            >
+              <i class="bi bi-caret-left-fill"></i> 返回
+            </button>
+            <h2 class="mt-3">{{ temp?.title }}</h2>
+            <span>{{ date_formator(temp?.publishedAt) }}</span>
+            <img :src="temp?.urlToImage" class="img-fluid" alt="" />
+            <p>{{ temp?.description }}</p>
+            <a :href="temp?.url" target="blank">看更多</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+    <script src="scripts/index.js" type="module"></script>
+  </body>
+</html>
